@@ -1,35 +1,39 @@
 #include<iostream>
 #include<string>
-#include <fstream>
 
 class Animal {
     std::string name;
 public:
-    virtual void speak(std::ostream& out) const = 0;
-};
+    Animal() : name(""){}
+    Animal(std::string& name) {
+        this->name = name;
+    }
 
-class Dog : public Animal {
-    std::string name;
+    std::string GetName() const { return name; }
+
+    virtual void speak(std::ostream& os, const Animal& name) const = 0;
+};
+class Dog :public Animal {
 public:
-    Dog(const std::string& n) : name(n) {}
-    void speak(std::ostream& os) const override {
-        os << "name: " << name << "speak: " << "Woof!\n";
+    Dog(std::string& name) : Animal(name){}
+
+    void speak(std::ostream& os, const Animal& name) const override {
+        os << "name: " << name.GetName() << " speak: " << "Gav-gav!\n";
     }
 };
-
-class Cat : public Animal {
-    std::string name;
+class Cat :public Animal {
 public:
-    Cat(const std::string& n) : name(n) {}
-    void speak(std::ostream& os) const override {
-        os << "name: " << name << "speak: " << "Meeeeeeow!\n";
+    Cat(std::string& name) : Animal(name) {}
+
+    void speak(std::ostream& os, const Animal& name) const override {
+        os << "name: " << name.GetName() << "speak:" << "Meoooooow!\n";
     }
-    class Parrot : public Animal {
-        std::string name;
-    public:
-        Parrot(const std::string& n) : name(n) {}
-        void speak(std::ostream& os) const override {
-            os << "name: " << name << "speak: " << "Hrrrrrr!\n";
-        }
-    };
+};
+class Parrot :public Animal{
+public:
+    Parrot(std::string& name) : Animal(name) {}
+
+    void speak(std::ostream& os, const Animal& name) const override {
+        os << "name: " << name.GetName() << "speak:" << "Hrrrrrrr!\n";
+    }
 };

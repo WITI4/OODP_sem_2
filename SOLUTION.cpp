@@ -323,6 +323,41 @@ int main() {
 
                     showCursor();
 
+                    std::vector<Animal*> animals;
+
+                    for (int i = 0; i < 5; i++) {
+                        std::string name;
+                        int type;
+                        std::cout << "Введите тип (1-Dog, 2-Cat, 3-Parrot) и имя животного " << i + 1 << ": ";
+                        std::cin >> type >> name;
+
+                        if (type == 1) {
+                            animals.push_back(new Dog(name));
+                        }
+                        else if (type == 2) {
+                            animals.push_back(new Cat(name));
+                        }
+                        else if (type == 3) {
+                            animals.push_back(new Parrot(name));
+                        }
+                        else {
+                            std::cout << "Неверный тип! Пропускаем.\n";
+                            i--;
+                            continue;
+                        }
+                    }
+
+                    for (size_t i = 0; i < animals.size(); i++) {
+                        animals[i]->speak(std::cout, *animals[i]);
+                    }
+
+
+
+
+
+
+
+
                     
                         /*std::vector<Animal*> animals(5);
 
@@ -355,7 +390,7 @@ int main() {
                         animals.clear();*/
 
                     
-                    std::vector<Human*> people;
+                  /*  std::vector<Human*> people;
 
                     people.push_back(new Entrepreneur("Иванов Иван Иванович", 1980, "AB1234567", "LIC123", "ул. Ленина, 1", "123456789", "Налог 2022: 1000$"));
                     people.push_back(new Entrepreneur("Смирнова Анна Владимировна", 1965, "GH3456789", "LIC456", "ул. Мира, 5", "987654321", "Налог 2022: 1500$"));
@@ -377,7 +412,7 @@ int main() {
                     printToFile(people, "people_data.txt");
                     std::cout << "Данные сохранены в файл 'people_data.txt'\n";
 
-                    people.clear();
+                    people.clear();*/
 
                     hideCursor();
 
