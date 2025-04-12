@@ -1,57 +1,40 @@
-#include<iostream>
-#include<string>
+#include "project3_header.h"
 //#define DEBUG
 
-class String {
-private:
-	std::string str;
-	//static int count;
-public:
-	String() : str("") {}
-	String(const String &other) : str(other.str) {}
-	String(std::string str) {
-		this->str = str;
-		//count++;
-	}
+// int String::count = 0;
 
-	std::string GetStr() const {
-		return str;
-	}
-	void SetStr(const std::string &str) {
-		this->str = str;
-	}
+String::String() : str("") {}
+String::String(const String& other) : str(other.str) {}
+String::String(std::string str) : str(str) {}
 
-	bool inline operator!() const;
-	char inline operator[](int index);
-	std::string inline operator()(int iStart, int iEnd) const;
+std::string String::GetStr() const { return str; }
 
-	~String() {
-#ifdef DEBUG
-		cout << "Деструктор String вызван" << endl;
-#endif
-	}
-	friend inline std::ostream& operator<<(std::ostream& os, const String& s);
-	friend inline std::istream& operator>>(std::istream& is, String& s);
-
-};
-
-//int String::count = 0;
+void String::SetStr(const std::string& str) { this->str = str; }
 
 bool String::operator!() const {
-	return str.empty();
+    return str.empty();
 }
+
 char String::operator[](int index) {
-	return str[index];
+    return str[index];
 }
+
 std::string String::operator()(int iStart, int iEnd) const {
-	return str.substr(iStart, iEnd - iStart + 1);
+    return str.substr(iStart, iEnd - iStart + 1);
+}
+
+String::~String() {
+#ifdef DEBUG
+    std::cout << "Деструктор String вызван" << std::endl;
+#endif
 }
 
 std::ostream& operator<<(std::ostream& os, const String& s) {
-	os << s.str;
-	return os;
+    os << s.str;
+    return os;
 }
+
 std::istream& operator>>(std::istream& is, String& s) {
-	is >> s.str;
-	return is;
+    is >> s.str;
+    return is;
 }

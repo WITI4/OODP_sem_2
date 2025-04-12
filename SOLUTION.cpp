@@ -1,10 +1,10 @@
-﻿#include "project1.cpp"
-#include "project2.cpp"
-#include "project3.cpp"
-#include "project4.cpp"
+﻿#include "project1_header.h"
+#include "project2_header.h"
+#include "project3_header.h"
+#include "project4_header.h"
 #include "dproject4.cpp"
-#include "project5.cpp"
-#include "project6.cpp"
+#include "project5_header.h"
+#include "project6_header.h"
 #include "cursor_visibility.h"
 #include "cursor_menu.h"
 #include <iostream>
@@ -35,12 +35,13 @@ int main() {
     HANDLE consoleColor = GetStdHandle(STD_OUTPUT_HANDLE);
 
     const std::string mainMenu[]{
-        "Лабораторная работа №1",
-        "Лабораторная работа №2",
-        "Лабораторная работа №3",
-        "Лабораторная работа №4",
-        "Лабораторная работа №5",
-        "Лабораторная работа №6",
+        "Лабораторная работа №1 'Encapsulation'",
+        "Лабораторная работа №2 'Dynamic memory allocation'",
+        "Лабораторная работа №3 'Friend functions'",
+        "Лабораторная работа №4 'Inheritance'",
+        "Лабораторная работа №5 'Polymorphism'",
+        "Лабораторная работа №6 'Multiple inheritance'",
+        "Лабораторная работа №7 'Templates'",
         "Выход из программы"
     };
     int mainMenuCount = sizeof(mainMenu) / sizeof(mainMenu[0]);
@@ -59,7 +60,7 @@ int main() {
         switch (choice) {
         case 0: { // Лабораторная работа №1
             while (true) {
-                int secondaryChoice = showMenu(".../mainMenu/secondaryMenu/", secondaryMenu, secondaryMenuCount);
+                int secondaryChoice = showMenu(".../mainMenu/secondaryMenu/encapsulation", secondaryMenu, secondaryMenuCount);
 
                 switch (secondaryChoice) {
                 case lab_showTask: {
@@ -163,7 +164,7 @@ int main() {
         }
         case 1: { // Лабораторная работа №2
             while (true) {
-                int secondaryChoice = showMenu(".../mainMenu/secondaryMenu/", secondaryMenu, secondaryMenuCount);
+                int secondaryChoice = showMenu(".../mainMenu/secondaryMenu/dynamic_memory_allocation", secondaryMenu, secondaryMenuCount);
 
                 switch (secondaryChoice) {
                 case lab_showTask: {
@@ -242,7 +243,7 @@ int main() {
         }
         case 2: { // Лабораторная работа №3
             while (true) {
-                int secondaryChoice = showMenu(".../mainMenu/secondaryMenu/", secondaryMenu, secondaryMenuCount);
+                int secondaryChoice = showMenu(".../mainMenu/secondaryMenu/friend_functions", secondaryMenu, secondaryMenuCount);
 
                 switch (secondaryChoice) {
                 case lab_showTask: {
@@ -310,7 +311,7 @@ int main() {
         }
         case 3: { // Лабораторная работа №4
             while (true) {
-                int secondaryChoice = showMenu(".../mainMenu/secondaryMenu/", secondaryMenu, secondaryMenuCount);
+                int secondaryChoice = showMenu(".../mainMenu/secondaryMenu/inheritance", secondaryMenu, secondaryMenuCount);
 
                 switch (secondaryChoice) {
                 case lab_showTask: {
@@ -399,7 +400,7 @@ int main() {
         }
         case 4: { // Лабораторная работа №5
             while (true) {
-                int secondaryChoice = showMenu(".../mainMenu/secondaryMenu/", secondaryMenu, secondaryMenuCount);
+                int secondaryChoice = showMenu(".../mainMenu/secondaryMenu/polymorphism", secondaryMenu, secondaryMenuCount);
 
                 switch (secondaryChoice) {
                 case lab_showTask: {
@@ -460,7 +461,7 @@ int main() {
         }
         case 5: { // Лабораторная работа №6
             while (true) {
-                int secondaryChoice = showMenu(".../mainMenu/secondaryMenu/", secondaryMenu, secondaryMenuCount);
+                int secondaryChoice = showMenu(".../mainMenu/secondaryMenu/multiple_inheritance", secondaryMenu, secondaryMenuCount);
 
                 switch (secondaryChoice) {
                 case lab_showTask: {
@@ -479,7 +480,7 @@ int main() {
 
                     PaymentForm pf;
 
-                    pf.CinPaymentForm(std::cout, std::cin);
+                    pf.ScanPaymentForm(std::cout, std::cin);
 
                     pf.PrintPaymentForm(std::cout);
                     std::vector<PaymentForm> people = {pf};
@@ -501,7 +502,43 @@ int main() {
                 }
             }
         }
-        case 6: {// Выход из программы
+        case 6: { // Лабораторная работа №7
+            while (true) {
+                int secondaryChoice = showMenu(".../mainMenu/secondaryMenu/templates", secondaryMenu, secondaryMenuCount);
+
+                switch (secondaryChoice) {
+                case lab_showTask: {
+                    std::cout << "\nВы выбрали: " << secondaryMenu[secondaryChoice] << std::endl;
+                    std::cout << "\nНЕОБХОДИМО ВЫПОЛНИТЬ:\n\n3. Имеется два класса: «Данные о работнике» (поля класса: фамилия, массив зарплат за квартал), «Налоговые данные»(поля класса : процент подоходного налога).Разработать класс «Платежная форма» для вывода итоговых данных(данных о работке и о его налоговых вычетах). \n" << std::endl;
+                    system("pause");
+                    break;
+                }
+                case lab_showTaskAndCopmplete: {
+
+
+                    std::cout << "\nВы выбрали: " << secondaryMenu[secondaryChoice] << std::endl;
+                    std::cout << "\nНЕОБХОДИМО ВЫПОЛНИТЬ:\n\n3. Имеется два класса: «Данные о работнике» (поля класса: фамилия, массив зарплат за квартал), «Налоговые данные»(поля класса : процент подоходного налога).Разработать класс «Платежная форма» для вывода итоговых данных(данных о работке и о его налоговых вычетах). \n" << std::endl;
+
+                    showCursor();
+
+
+
+                    hideCursor();
+
+                    system("pause");
+                    break;
+                }
+                case lab_returnToMainMenu: {
+                    goto mainMenu;
+                }
+                case lab_endOfProgram: {
+                    std::cout << "\nВы выбрали: " << secondaryMenu[secondaryChoice] << std::endl;
+                    return 0;
+                }
+                }
+            }
+        }
+        case 7: {// Выход из программы
             std::cout << "\nВы выбрали: " << mainMenu[choice] << std::endl;
             return 0;
         }
