@@ -1,4 +1,5 @@
 #pragma once
 #include <string>
 
-int showMenu(const std::string& title, const std::string options[], int optionCount);
+void setCursorPos(int y);
+int showMenu(const std::string& title, const std::string opts[], int count, bool rememberPosition = false);
