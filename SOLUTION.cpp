@@ -11,11 +11,12 @@
 #include <conio.h>
 #include <stdio.h>
 #include <vector>
+#include<cctype>
 
 #undef max
 #define fastErrInfo \
 SetConsoleTextAttribute(consoleColor, 4);\
-std::cout << "Некорректный ввод. Введите информацию еще раз:\n";\
+std::cerr << "Некорректный ввод. Введите информацию еще раз:\n";\
 SetConsoleTextAttribute(consoleColor, 7); 
 //#define DEBUG
 
@@ -316,7 +317,7 @@ int main() {
                     break;
                 }
                 case lab_showTaskAndCopmplete: {
-                 
+
 
                     std::cout << "\nВы выбрали: " << secondaryMenu[secondaryChoice] << std::endl;
                     std::cout << "\nНЕОБХОДИМО:\n\n3.Создать класс «Человек», включающий в себя ФИО, год рождения, паспортные данные.Создать классы «Предприниматель» с полями «номер лицензии», «адрес регистрации», «УНН», «данные о налоговых платежах»; «Турист» с полями «данные о пересечении границы»; «Челнок» с полем «список адресов, по которым покупался товар».Создать массив объектов базового класса и заполнить этот массив объектами базового и производных классов.Написать программу, которая определяет самого старшего из созданных объектов и выводит данные о созданных объектах в файл.Классы должны содержать методы получения и изменения значений всех полей.Все поля классов должны быть объявлены с атрибутами private или protected\n" << std::endl;
@@ -324,79 +325,41 @@ int main() {
                     showCursor();
 
                     std::vector<Animal*> animals;
+                    Dog dog;
+                    Cat cat;
+                    Parrot parrot;
+
+                    std::string type;
 
                     for (int i = 0; i < 5; i++) {
-                        std::string name;
-                        int type;
-                        std::cout << "Введите тип (1-Dog, 2-Cat, 3-Parrot) и имя животного " << i + 1 << ": ";
-                        std::cin >> type >> name;
+                        std::cout << "Введите тип животного " << i + 1 << " : ";
+                        std::cin >> type;
 
-                        if (type == 1) {
-                            animals.push_back(new Dog(name));
+                        if (type == "dog") {
+                            animals.push_back(&dog);
+                            animals.back()->speak(std::cout);
                         }
-                        else if (type == 2) {
-                            animals.push_back(new Cat(name));
+                        else if (type == "cat") {
+                            animals.push_back(&cat);
+                            animals.back()->speak(std::cout);
                         }
-                        else if (type == 3) {
-                            animals.push_back(new Parrot(name));
+                        else if (type == "parrot") {
+                            animals.push_back(&parrot);
+                            animals.back()->speak(std::cout);
                         }
                         else {
-                            std::cout << "Неверный тип! Пропускаем.\n";
+                            fastErrInfo;
                             i--;
-                            continue;
                         }
                     }
 
-                    for (size_t i = 0; i < animals.size(); i++) {
-                        animals[i]->speak(std::cout, *animals[i]);
-                    }
-
-
-
-
-
-
-
-
-                    
-                        /*std::vector<Animal*> animals(5);
-
-                        std::cout << "Initial size: " << animals.size() << "\n";
-
-                        for (size_t i = 0; i < animals.size(); i++) {
-                            std::cout << "Enter animalType (1 - dog, 2 - Cat, 3 - Parrot) ";
-                            std::string type, name;
-                            std::cin >> type >> name;
-
-                            if (type == "1") {
-                                animals[i] = new Dog(name);
-                            }
-                            else if (type == "2") {
-                                animals[i] = new Cat(name);
-                            }
-                            else if (type == "3") {
-                                animals[i] = new Cat(name);
-                            }
-                            else {
-                                std::cout << "Unknown animal type\n";
-                                i--; 
-                                continue;
-                            }
-
-                            animals[i]->speak(std::cout);
-                            std::cout << std::string(20, '-') << std::endl;
-                        }
-
-                        animals.clear();*/
-
-                    
-                  /*  std::vector<Human*> people;
+                    /*std::vector<Human*> people;
 
                     people.push_back(new Entrepreneur("Иванов Иван Иванович", 1980, "AB1234567", "LIC123", "ул. Ленина, 1", "123456789", "Налог 2022: 1000$"));
                     people.push_back(new Entrepreneur("Смирнова Анна Владимировна", 1965, "GH3456789", "LIC456", "ул. Мира, 5", "987654321", "Налог 2022: 1500$"));
                     people.push_back(new Shuttle("Сидоров Сидор Сидорович", 1990, "EF5678912", "Турция, Китай"));
                     people.push_back(new Tourist("Петров Петр Петрович", 1975, "CD9876543", "2023-01-15: въезд"));
-                   
+
                     for (int i = 0; i < people.size(); i++) {
                         people[i]->PrintInfo(std::cout);
                         std::cout << std::string(20, '-') << std::endl;
@@ -509,7 +472,7 @@ int main() {
 
                     showCursor();
 
-                   
+
 
                     hideCursor();
 
