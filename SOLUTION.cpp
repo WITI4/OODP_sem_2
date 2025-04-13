@@ -1,6 +1,6 @@
 ﻿#include "cursor_visibility.h"
 #include "cursor_menu.h"
-#include "inactivity_timer.h"
+#include "console_inactivity_timer.h"
 #include "project1_header.h"
 #include "project2_header.h"
 #include "project3_header.h"
@@ -36,7 +36,7 @@ int main() {
 
     HANDLE consoleColor = GetStdHandle(STD_OUTPUT_HANDLE);
 
-    std::thread timer(inactivity_timer, 5);
+    std::thread timer(inactivity_timer, 30);
     timer.detach();
 
     const std::string mainMenu[]{
