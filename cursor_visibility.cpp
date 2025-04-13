@@ -1,4 +1,4 @@
-#include<windows.h>
+#include "cursor_visibility.h"
 
 void hideCursor() {
     CONSOLE_CURSOR_INFO cursor;

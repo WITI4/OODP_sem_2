@@ -1,18 +1,19 @@
-﻿#include "project1_header.h"
+﻿#include "cursor_visibility.h"
+#include "cursor_menu.h"
+#include "inactivity_timer.h"
+#include "project1_header.h"
 #include "project2_header.h"
 #include "project3_header.h"
 #include "project4_header.h"
 #include "dproject4.cpp"
 #include "project5_header.h"
 #include "project6_header.h"
-#include "cursor_visibility.h"
-#include "cursor_menu.h"
 #include <iostream>
-#include<windows.h>
+#include <windows.h>
 #include <conio.h>
 #include <stdio.h>
 #include <vector>
-#include<cctype>
+#include <cctype>
 
 #undef max
 #define fastErrInfo \
@@ -32,7 +33,11 @@ int main() {
     setlocale(0, "ru");
     SetConsoleCP(1251);
     SetConsoleOutputCP(1251);
+
     HANDLE consoleColor = GetStdHandle(STD_OUTPUT_HANDLE);
+
+    std::thread timer(inactivity_timer, 5);
+    timer.detach();
 
     const std::string mainMenu[]{
         "Лабораторная работа №1 'Encapsulation'",
