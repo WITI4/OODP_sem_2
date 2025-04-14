@@ -1,6 +1,7 @@
 ﻿#include "cursor_visibility.h"
 #include "cursor_menu.h"
 #include "console_inactivity_timer.h"
+#include "input_check.h"
 #include "project1_header.h"
 #include "project2_header.h"
 #include "project3_header.h"
@@ -75,19 +76,17 @@ int main() {
                     break;
                 }
                 case lab_showTaskAndCopmplete: {
-                    int day, month, year, id, empPosition, empCount = 0;
+                    unsigned empCount = 0;
+                    int day, month, year, id, empPosition;
                     float salary;
 
                     std::cout << "\nВы выбрали: " << secondaryMenu[secondaryChoice] << std::endl;
                     std::cout << "\nНЕОБХОДИМО:\n\n1. создать программу на языке С / С++, которая позволяет выбрать номер лабораторной работы семестра(1, 2, 3, 4…),\n2. создать массив объектов указанных классов,\n3. считать данные объектов с клавиатуры\n4. вывести данные объектов на экран и в файл\n5. создать методы установки значений полей класса.Методы должны проверять корректность задаваемых параметров\n6. создать конструктор с параметрами, конструктор без параметров, конструктор копирования, деструктор.\n\n3. Создать класс Employee(сотрудник).Класс должен включать поле int для хранения идентификационного номера сотрудника и поле float для хранения величины его оклада.В классе Employee должно быть поле типа класса Date(дата) и перечисления Position(должность).Поле типа Date необходимо использовать для хранения даты приема сотрудника на работу. Поле типа Position использовать для хранения статуса сотрудника : лаборант, секретарь, менеджер и т.д.\n" << std::endl;
                     showCursor();
 
-                    std::cout << "Введите количество сотрудников: ";
-                    while (!(std::cin >> empCount) || std::cin.peek() != '\n') {
-                        fastErrInfo
-                            std::cin.clear();
-                        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                    }
+                    std::cout << "Введите количество сотрудников: ";;
+                    is_valid_number(empCount);
+                    std::cout << "\n";
 
                     if (empCount > 0) {
                         Employee* employees = new Employee[empCount];
@@ -179,7 +178,7 @@ int main() {
                     break;
                 }
                 case lab_showTaskAndCopmplete: {
-                    int rootsIterCount = 0;
+                    unsigned rootsIterCount;
                     double a, b, c;
 
                     std::cout << "\nВы выбрали: " << secondaryMenu[secondaryChoice] << std::endl;
@@ -188,21 +187,22 @@ int main() {
 
                     while (true) {
                         std::cout << "Введите количество квадратных уравнений: ";
-                        while (!(std::cin >> rootsIterCount) || std::cin.peek() != '\n') {
-                            fastErrInfo
-                                std::cin.clear();
-                            std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                        }
-                        if (rootsIterCount > 0) {
+
+                        is_valid_number(rootsIterCount);
+                        std::cout << std::endl;
+                        if (rootsIterCount != 0) {
                             QuadraticEquation* quadraticEquations = new QuadraticEquation[rootsIterCount];
 
                             for (int i = 0; i < rootsIterCount; i++) {
                                 std::cout << "Введите коэффициенты a, b, c для уравнения:  " << i + 1 << std::endl;
-                                while (!(std::cin >> a >> b >> c) || std::cin.peek() != '\n') {
-                                    fastErrInfo
-                                        std::cin.clear();
-                                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                                }
+
+                                is_valid_number(a);
+                                std::cout << std::endl;
+                                is_valid_number(b);
+                                std::cout << std::endl;
+                                is_valid_number(c);
+                                std::cout << std::endl;
+
                                 quadraticEquations[i].SetQuadraticEquation(a, b, c);
                             }
 
