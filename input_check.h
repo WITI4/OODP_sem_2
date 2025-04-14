@@ -3,9 +3,9 @@
 #include <string>
 #include <conio.h>
 
-const int ENTER = 13;
-const int BACKSPACE = 8;
-const int MAX_DIGITS = 11;
+constexpr const int ENTER = 13;
+constexpr const int BACKSPACE = 8;
+constexpr const int MAX_DIGITS = 11;
 const std::string MAX_INT32 = "2147483647";
 const std::string MIN_INT32 = "2147483648";
 
@@ -43,6 +43,12 @@ bool is_valid_number(T& num) {
                 else buf.pop_back();
             }
         }
+        else if constexpr (std::is_same_v<T, std::string>) {
+            if (isalpha(c)) {
+                buf += c;
+                std::cout << (char)c;
+            }
+        }
 
         if (c == BACKSPACE && !buf.empty()) {
             buf.pop_back();
@@ -58,6 +64,9 @@ bool is_valid_number(T& num) {
                 }
                 else if constexpr (std::is_same_v<T, double> || std::is_same_v<T, float>) {
                     num = Stod(buf);
+                }
+                else if constexpr (std::is_same_v<T, std::string>) {
+                    num = buf;
                 }
                 return true;
             }

@@ -486,26 +486,28 @@ int main() {
                 switch (secondaryChoice) {
                 case lab_showTask: {
                     std::cout << "\nВы выбрали: " << secondaryMenu[secondaryChoice] << std::endl;
+
                     std::cout << "\nНЕОБХОДИМО ВЫПОЛНИТЬ:\n\n3. Имеется два класса: «Данные о работнике» (поля класса: фамилия, массив зарплат за квартал), «Налоговые данные»(поля класса : процент подоходного налога).Разработать класс «Платежная форма» для вывода итоговых данных(данных о работке и о его налоговых вычетах). \n" << std::endl;
                     system("pause");
                     break;
                 }
                 case lab_showTaskAndCopmplete: {
-
-
                     std::cout << "\nВы выбрали: " << secondaryMenu[secondaryChoice] << std::endl;
                     std::cout << "\nНЕОБХОДИМО ВЫПОЛНИТЬ:\n\n3. Имеется два класса: «Данные о работнике» (поля класса: фамилия, массив зарплат за квартал), «Налоговые данные»(поля класса : процент подоходного налога).Разработать класс «Платежная форма» для вывода итоговых данных(данных о работке и о его налоговых вычетах). \n" << std::endl;
 
                     showCursor();
 
+                    std::vector<PaymentForm> forms;
                     PaymentForm pf;
 
-                    pf.ScanPaymentForm(std::cout, std::cin);
+                    // Заполнение форм
+                    pf.ScanPaymentForm(forms, std::cout, std::cin);
 
-                    pf.PrintPaymentForm(std::cout);
-                    std::vector<PaymentForm> people = {pf};
-                    printToFile(people, "payment.txt");
-                    std::cout << "Данные сохранены в файл payment.txt\n";
+                    // Вывод всех форм
+                    pf.PrintAllForms(forms, std::cout);
+
+                    // Сохранение в файл
+                    printToFile(forms, "payments.txt");
 
                     hideCursor();
 

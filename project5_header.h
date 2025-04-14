@@ -5,7 +5,6 @@
 #include <vector>
 
 class Vehicle {
-protected:
     std::string vehicleType;
     int passengerCapacity;
     std::string licensePlate;
@@ -17,7 +16,7 @@ public:
     virtual ~Vehicle();
 
     std::string GetVehicleType() const;
-    int GetPassengerCapacity() const;
+    constexpr int GetPassengerCapacity() const;
     std::string GetLicensePlate() const;
 
     void SetVehicleType(const std::string& vehicleType);
@@ -41,9 +40,9 @@ public:
     ~Driver() override;
 
     std::string GetFullName() const;
-    int GetExperienceYears() const;
+    constexpr int GetExperienceYears() const;
     std::string GetLicenseCategory() const;
-    int GetAge() const;
+    constexpr int GetAge() const;
 
     void SetFullName(const std::string& fullName);
     void SetExperienceYears(int experienceYears);
@@ -60,13 +59,12 @@ private:
 public:
     Truck();
     Truck(const Truck& other);
-    Truck(const std::string vehicleType, int passengerCapacity, const std::string licensePlate,
-        double maxLoadCapacity, bool hasTrailer);
+    Truck(const std::string vehicleType, int passengerCapacity, const std::string licensePlate, double maxLoadCapacity, bool hasTrailer);
 
     ~Truck() override;
 
-    double GetMaxLoadCapacity() const;
-    bool GetHasTrailer() const;
+    constexpr double GetMaxLoadCapacity() const;
+    constexpr bool GetHasTrailer() const;
 
     void SetMaxLoadCapacity(double maxLoadCapacity);
     void SetHasTrailer(bool hasTrailer);
@@ -81,13 +79,12 @@ private:
 public:
     Car();
     Car(const Car& other);
-    Car(const std::string vehicleType, int passengerCapacity, const std::string licensePlate,
-        const std::string carClass, bool isElectric);
+    Car(const std::string vehicleType, int passengerCapacity, const std::string licensePlate, const std::string carClass, bool isElectric);
 
     ~Car() override;
 
     std::string GetCarClass() const;
-    bool GetIsElectric() const;
+    constexpr bool GetIsElectric() const;
 
     void SetCarClass(const std::string& carClass);
     void SetIsElectric(bool isElectric);

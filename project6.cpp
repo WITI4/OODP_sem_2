@@ -1,9 +1,13 @@
 #include "project6_header.h"
+#include "input_check.h"
 //#define DEBUG
 
 EmployeeData::EmployeeData() : EmployeeData("", { 0.0, 0.0, 0.0 }) {}
 EmployeeData::EmployeeData(const EmployeeData& other) : lastName(other.lastName), quarterlySalaries(other.quarterlySalaries) {}
-EmployeeData::EmployeeData(const std::string& lastName, const std::vector<double>& quarterlySalaries) : lastName(lastName), quarterlySalaries(quarterlySalaries) {}
+EmployeeData::EmployeeData(const std::string& lastName, const std::vector<double>& quarterlySalaries) {
+    this->lastName = lastName;
+    this->quarterlySalaries = quarterlySalaries;
+}
 
 EmployeeData::~EmployeeData() {
 #ifdef DEBUG
@@ -29,7 +33,9 @@ double EmployeeData::GetTotalSalary() const {
 
 TaxData::TaxData() : TaxData(0.0) {}
 TaxData::TaxData(const TaxData& other) : incomeTaxRate(other.incomeTaxRate) {}
-TaxData::TaxData(const double& incomeTaxRate) : incomeTaxRate(incomeTaxRate) {}
+TaxData::TaxData(const double& incomeTaxRate) {
+    this->incomeTaxRate = incomeTaxRate;
+}
 
 TaxData::~TaxData() {
 #ifdef DEBUG
@@ -37,7 +43,7 @@ TaxData::~TaxData() {
 #endif
 }
 
-double TaxData::GetIncomeTaxRate() const { return incomeTaxRate; }
+constexpr double TaxData::GetIncomeTaxRate() const { return incomeTaxRate; }
 void TaxData::SetIncomeTaxRate(const double& incomeTaxRate) { this->incomeTaxRate = incomeTaxRate; }
 
 double TaxData::CalculateTax(double amount) const {
@@ -47,49 +53,58 @@ double TaxData::CalculateTax(double amount) const {
 PaymentForm::PaymentForm() : EmployeeData(), TaxData() {}
 PaymentForm::PaymentForm(const std::string& lastName, const std::vector<double>& quarterlySalaries, const double& incomeTaxRate) : EmployeeData(lastName, quarterlySalaries), TaxData(incomeTaxRate) {}
 
-void PaymentForm::ScanPaymentForm(std::ostream& os, std::istream& is) {
+void PaymentForm::ScanPaymentForm(std::vector<PaymentForm>& forms, std::ostream& os, std::istream& is) {
     HANDLE consoleColor = GetStdHandle(STD_OUTPUT_HANDLE);
 
-    std::string lastName;
-    os << "Введите фамилию работника: ";
-    is >> lastName;
-    SetLastName(lastName);
+    unsigned paymentFormCount = 0;
 
-    std::vector<double> salaries;
-    double salary;
-    os << "Введите зарплаты за 3 месяца:\n";
-    for (int month = 0; month < 3; month++) {
+    os << "Введите количество форм для заполнения: ";
+    is_valid_number(paymentFormCount);
+    std::cout << "\n";
+
+    forms.clear();
+
+    for (int i = 0; i < paymentFormCount; i++) {
+        PaymentForm form;
+
+        std::string lastName;
+        os << "Введите фамилию работника " << i + 1 << " : ";
+        is_valid_number(lastName);
+        form.SetLastName(lastName);
+        std::cout << "\n";
+
+        std::vector<double> salaries;
+        double salary;
+        os << "Введите зарплаты за 3 месяца:\n";
+        for (int month = 0; month < 3; month++) {
+            while (true) {
+                os << "Месяц " << month + 1 << ": ";
+                is_valid_number(salary);
+                std::cout << "\n";
+                if (salary > 0) {
+                    salaries.push_back(salary);
+                    break;
+                }
+                else fastErrInfo;
+            }
+        }
+        form.SetQuarterlySalaries(salaries);
+
+        double taxRate;
         while (true) {
-            os << "Месяц " << month + 1 << ": ";
-            if (is >> salary && salary > 0) {
-                salaries.push_back(salary);
+            os << "Введите процент налога (0-100): ";
+            is_valid_number(taxRate);
+            std::cout << "\n";
+            if (taxRate > 0 && taxRate <= 100) {
+                form.SetIncomeTaxRate(taxRate);
                 break;
             }
-            else {
-                fastErrInfo;
-                is.clear();
-                is.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            }
+            else fastErrInfo;
         }
-    }
-    SetQuarterlySalaries(salaries);
 
-    double taxRate;
-    os << "Введите процент налога (0-100): ";
-    while (true) {
-        if (is >> taxRate && taxRate >= 0 && taxRate <= 100) {
-            SetIncomeTaxRate(taxRate);
-            break;
-        }
-        else {
-            fastErrInfo;
-            is.clear();
-            is.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-            os << "Введите процент налога (0-100): ";
-        }
+        forms.push_back(form);
     }
 }
-
 void PaymentForm::PrintPaymentForm(std::ostream& os) const {
     os << "\nПлатежная ведомость:\n";
     os << "Фамилия: " << GetLastName() << "\n";
@@ -102,6 +117,16 @@ void PaymentForm::PrintPaymentForm(std::ostream& os) const {
     os << "Налог: " << CalculateTax(GetTotalSalary()) << std::endl;
     os << "К выплате: " << GetTotalSalary() - CalculateTax(GetTotalSalary()) << std::endl;
 }
+void PaymentForm::PrintAllForms(const std::vector<PaymentForm>& forms, std::ostream& os) const {
+    os << std::string(20, '-');
+    os << "\nВСЕ ПЛАТЕЖНЫЕ ВЕДОМОСТИ:\n\n";
+    for (size_t i = 0; i < forms.size(); i++) {
+        os << "Форма #" << i + 1 << "\n";
+        forms[i].PrintPaymentForm(os);
+        os << std::string(20, '-') << "\n\n";
+    }
+}
+
 
 PaymentForm::~PaymentForm() {
 #ifdef DEBUG

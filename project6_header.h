@@ -32,7 +32,6 @@ public:
 };
 
 class TaxData {
-protected:
     double incomeTaxRate;
 public:
     TaxData();
@@ -41,7 +40,7 @@ public:
 
     virtual ~TaxData();
 
-    double GetIncomeTaxRate() const;
+    constexpr double GetIncomeTaxRate() const;
 
     void SetIncomeTaxRate(const double& incomeTaxRate);
 
@@ -53,8 +52,9 @@ public:
     PaymentForm();
     PaymentForm(const std::string& lastName, const std::vector<double>& quarterlySalaries, const double& incomeTaxRate);
 
-    void ScanPaymentForm(std::ostream& os, std::istream& is);
+    void ScanPaymentForm(std::vector<PaymentForm>& forms, std::ostream& os, std::istream& is);
     void PrintPaymentForm(std::ostream& os) const;
+    void PrintAllForms(const std::vector<PaymentForm>& forms, std::ostream& os) const;
 
     ~PaymentForm() override;
 };

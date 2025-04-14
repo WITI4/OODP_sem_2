@@ -16,7 +16,7 @@ Vehicle::~Vehicle() {
 }
 
 std::string Vehicle::GetVehicleType() const { return vehicleType; }
-int Vehicle::GetPassengerCapacity() const { return passengerCapacity; }
+constexpr int Vehicle::GetPassengerCapacity() const { return passengerCapacity; }
 std::string Vehicle::GetLicensePlate() const { return licensePlate; }
 
 void Vehicle::SetVehicleType(const std::string& vehicleType) { this->vehicleType = vehicleType; }
@@ -39,9 +39,9 @@ Driver::~Driver() {
 }
 
 std::string Driver::GetFullName() const { return fullName; }
-int Driver::GetExperienceYears() const { return experienceYears; }
+constexpr int Driver::GetExperienceYears() const { return experienceYears; }
 std::string Driver::GetLicenseCategory() const { return licenseCategory; }
-int Driver::GetAge() const { return age; }
+constexpr int Driver::GetAge() const { return age; }
 
 void Driver::SetFullName(const std::string& fullName) { this->fullName = fullName; }
 void Driver::SetExperienceYears(int experienceYears) { this->experienceYears = experienceYears; }
@@ -68,8 +68,8 @@ Truck::~Truck() {
 #endif
 }
 
-double Truck::GetMaxLoadCapacity() const { return maxLoadCapacity; }
-bool Truck::GetHasTrailer() const { return hasTrailer; }
+constexpr double Truck::GetMaxLoadCapacity() const { return maxLoadCapacity; }
+constexpr bool Truck::GetHasTrailer() const { return hasTrailer; }
 
 void Truck::SetMaxLoadCapacity(double maxLoadCapacity) { this->maxLoadCapacity = maxLoadCapacity; }
 void Truck::SetHasTrailer(bool hasTrailer) { this->hasTrailer = hasTrailer; }
@@ -96,7 +96,7 @@ Car::~Car() {
 }
 
 std::string Car::GetCarClass() const { return carClass; }
-bool Car::GetIsElectric() const { return isElectric; }
+constexpr bool Car::GetIsElectric() const { return isElectric; }
 
 void Car::SetCarClass(const std::string& carClass) { this->carClass = carClass; }
 void Car::SetIsElectric(bool isElectric) { this->isElectric = isElectric; }
