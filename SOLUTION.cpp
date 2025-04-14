@@ -65,7 +65,8 @@ int main() {
         int choice = showMenu(".../mainMenu/", mainMenu, mainMenuCount, 1);
         switch (choice) {
         case 0: { // Лабораторная работа №1
-            while (true) {
+            bool shouldReturnToMainMenu = false;
+            while (!shouldReturnToMainMenu) {
                 int secondaryChoice = showMenu(".../mainMenu/secondaryMenu/encapsulation", secondaryMenu, secondaryMenuCount);
 
                 switch (secondaryChoice) {
@@ -157,7 +158,8 @@ int main() {
                     break;
                 }
                 case lab_returnToMainMenu: {
-                    goto mainMenu;
+                    shouldReturnToMainMenu = true;
+                    break;
                 }
                 case lab_endOfProgram: {
                     std::cout << "\nВы выбрали: " << secondaryMenu[secondaryChoice] << std::endl;
@@ -165,9 +167,11 @@ int main() {
                 }
                 }
             }
+            break;
         }
         case 1: { // Лабораторная работа №2
-            while (true) {
+            bool shouldReturnToMainMenu = false;
+            while (!shouldReturnToMainMenu) {
                 int secondaryChoice = showMenu(".../mainMenu/secondaryMenu/dynamic_memory_allocation", secondaryMenu, secondaryMenuCount);
 
                 switch (secondaryChoice) {
@@ -237,7 +241,8 @@ int main() {
                     break;
                 }
                 case lab_returnToMainMenu: {
-                    goto mainMenu;
+                    shouldReturnToMainMenu = true;
+                    break;
                 }
                 case lab_endOfProgram: {
                     std::cout << "\nВы выбрали: " << secondaryMenu[secondaryChoice] << std::endl;
@@ -245,9 +250,11 @@ int main() {
                 }
                 }
             }
+            break;
         }
         case 2: { // Лабораторная работа №3
-            while (true) {
+            bool shouldReturnToMainMenu = false;
+            while (!shouldReturnToMainMenu) {
                 int secondaryChoice = showMenu(".../mainMenu/secondaryMenu/friend_functions", secondaryMenu, secondaryMenuCount);
 
                 switch (secondaryChoice) {
@@ -305,7 +312,8 @@ int main() {
                     break;
                 }
                 case lab_returnToMainMenu: {
-                    goto mainMenu;
+                    shouldReturnToMainMenu = true;
+                    break;
                 }
                 case lab_endOfProgram: {
                     std::cout << "\nВы выбрали: " << secondaryMenu[secondaryChoice] << std::endl;
@@ -313,9 +321,11 @@ int main() {
                 }
                 }
             }
+            break;
         }
         case 3: { // Лабораторная работа №4
-            while (true) {
+            bool shouldReturnToMainMenu = false;
+            while (!shouldReturnToMainMenu) {
                 int secondaryChoice = showMenu(".../mainMenu/secondaryMenu/inheritance", secondaryMenu, secondaryMenuCount);
 
                 switch (secondaryChoice) {
@@ -394,7 +404,8 @@ int main() {
                     break;
                 }
                 case lab_returnToMainMenu: {
-                    goto mainMenu;
+                    shouldReturnToMainMenu = true;
+                    break;
                 }
                 case lab_endOfProgram: {
                     std::cout << "\nВы выбрали: " << secondaryMenu[secondaryChoice] << std::endl;
@@ -402,9 +413,11 @@ int main() {
                 }
                 }
             }
+            break;
         }
         case 4: { // Лабораторная работа №5
-            while (true) {
+            bool shouldReturnToMainMenu = false;
+            while (!shouldReturnToMainMenu) {
                 int secondaryChoice = showMenu(".../mainMenu/secondaryMenu/polymorphism", secondaryMenu, secondaryMenuCount);
 
                 switch (secondaryChoice) {
@@ -415,9 +428,8 @@ int main() {
                     break;
                 }
                 case lab_showTaskAndCopmplete: {
-
-
                     std::cout << "\nВы выбрали: " << secondaryMenu[secondaryChoice] << std::endl;
+
                     std::cout << "\nРАБОТЕ ОБЯЗАТЕЛЬНО РЕАЛИЗОВАТЬ:\n\n1. ДИНАМИЧЕСКИЙ ПОЛИМОРФИЗМ,\n2. СВЯЗЬ «НАСЛЕДОВАНИЕ»,\n3. СОЗДАТЬ АБСТРАКТНЫЙ КЛАСС,\n4. ПЕРЕОПРЕДЕЛЕНИЕ МЕТОДОВ КЛАССА.\n\n3. Написать программу учета наличия различных транспортных средств в автопарке.Разработать абстрактный базовый класс и набор дочерних классов содержащий поля с информацией о транспортных средствах.Классы должны содержать следующие поля : тип транспортного средства, количество мест для пассажиров и данные о водителе.По запросу выдавать необходимую информацию о транспортных средствах. Использовать конструктор с параметрами, конструктор без параметров, конструктор копирования.В класс добавить необходимый набор полей и методов(минимум два поля и два метода) на свое усмотрение. Предусмотреть метод для записи полученных данных в файл.\n" << std::endl;
 
                     showCursor();
@@ -455,7 +467,8 @@ int main() {
                     break;
                 }
                 case lab_returnToMainMenu: {
-                    goto mainMenu;
+                    shouldReturnToMainMenu = true;
+                    break;
                 }
                 case lab_endOfProgram: {
                     std::cout << "\nВы выбрали: " << secondaryMenu[secondaryChoice] << std::endl;
@@ -463,9 +476,11 @@ int main() {
                 }
                 }
             }
+            break;
         }
         case 5: { // Лабораторная работа №6
-            while (true) {
+            bool shouldReturnToMainMenu = false;
+            while (!shouldReturnToMainMenu) {
                 int secondaryChoice = showMenu(".../mainMenu/secondaryMenu/multiple_inheritance", secondaryMenu, secondaryMenuCount);
 
                 switch (secondaryChoice) {
@@ -498,7 +513,8 @@ int main() {
                     break;
                 }
                 case lab_returnToMainMenu: {
-                    goto mainMenu;
+                    shouldReturnToMainMenu = true;
+                    break;
                 }
                 case lab_endOfProgram: {
                     std::cout << "\nВы выбрали: " << secondaryMenu[secondaryChoice] << std::endl;
@@ -506,9 +522,11 @@ int main() {
                 }
                 }
             }
+            break;
         }
         case 6: { // Лабораторная работа №7
-            while (true) {
+            bool shouldReturnToMainMenu = false;
+            while (!shouldReturnToMainMenu) {
                 int secondaryChoice = showMenu(".../mainMenu/secondaryMenu/templates", secondaryMenu, secondaryMenuCount);
 
                 switch (secondaryChoice) {
@@ -519,8 +537,6 @@ int main() {
                     break;
                 }
                 case lab_showTaskAndCopmplete: {
-
-
                     std::cout << "\nВы выбрали: " << secondaryMenu[secondaryChoice] << std::endl;
                     std::cout << "\nНЕОБХОДИМО ВЫПОЛНИТЬ:\n\n3. Имеется два класса: «Данные о работнике» (поля класса: фамилия, массив зарплат за квартал), «Налоговые данные»(поля класса : процент подоходного налога).Разработать класс «Платежная форма» для вывода итоговых данных(данных о работке и о его налоговых вычетах). \n" << std::endl;
 
@@ -534,7 +550,8 @@ int main() {
                     break;
                 }
                 case lab_returnToMainMenu: {
-                    goto mainMenu;
+                    shouldReturnToMainMenu = true;
+                    break;
                 }
                 case lab_endOfProgram: {
                     std::cout << "\nВы выбрали: " << secondaryMenu[secondaryChoice] << std::endl;
@@ -542,12 +559,13 @@ int main() {
                 }
                 }
             }
+            break;
         }
         case 7: {// Выход из программы
             std::cout << "\nВы выбрали: " << mainMenu[choice] << std::endl;
             return 0;
         }
-          mainMenu:;
+              break;
         }
     }
 }
