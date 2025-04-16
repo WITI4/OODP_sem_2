@@ -500,13 +500,8 @@ int main() {
                     std::vector<PaymentForm> forms;
                     PaymentForm pf;
 
-                    // Заполнение форм
                     pf.ScanPaymentForm(forms, std::cout, std::cin);
-
-                    // Вывод всех форм
                     pf.PrintAllForms(forms, std::cout);
-
-                    // Сохранение в файл
                     printToFile(forms, "payments.txt");
 
                     hideCursor();
