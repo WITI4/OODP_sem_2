@@ -2,6 +2,7 @@
 #include "cursor_menu.h"
 #include "console_inactivity_timer.h"
 #include "input_check.h"
+#include "smoothWink.h"
 #include "project1_header.h"
 #include "project2_header.h"
 #include "project3_header.h"
@@ -23,21 +24,17 @@ std::cerr << "Некорректный ввод. Введите информац
 SetConsoleTextAttribute(consoleColor, 7); 
 //#define DEBUG
 
-enum For_SecondaryMenu_Switch {
-    lab_showTask = 0,
-    lab_showTaskAndCopmplete = 1,
-    lab_returnToMainMenu = 2,
-    lab_endOfProgram = 3
-};
+enum For_SecondaryMenu_Switch { lab_showTask, lab_showTaskAndCopmplete, lab_returnToMainMenu, lab_endOfProgram };
+enum For_ladNumberSwitch { lab_1_Encapsulation, lab_2_Dynamic_memory_allocation, lab_3_Friend_functions, lab_4_Inheritance, lab_5_Polymorphism, lab_6_Multiple_inheritance, lab_7_Templates, endOfProgram };
+
 
 int main() {
-    setlocale(0, "ru");
     SetConsoleCP(1251);
     SetConsoleOutputCP(1251);
 
     HANDLE consoleColor = GetStdHandle(STD_OUTPUT_HANDLE);
 
-    std::thread timer(inactivity_timer, 30);
+    std::thread timer(inactivity_timer, 100);
     timer.detach();
 
     const std::string mainMenu[]{
@@ -62,12 +59,12 @@ int main() {
 
     while (true) {
         hideCursor();
-        int choice = showMenu(".../mainMenu/", mainMenu, mainMenuCount, 1);
+        int choice = main_showMenu(".../mainMenu/", mainMenu, mainMenuCount, 1);
         switch (choice) {
-        case 0: { // Лабораторная работа №1
+        case lab_1_Encapsulation: {
             bool shouldReturnToMainMenu = false;
             while (!shouldReturnToMainMenu) {
-                int secondaryChoice = showMenu(".../mainMenu/secondaryMenu/encapsulation", secondaryMenu, secondaryMenuCount);
+                int secondaryChoice = main_showMenu(".../mainMenu/secondaryMenu/encapsulation", secondaryMenu, secondaryMenuCount);
 
                 switch (secondaryChoice) {
                 case lab_showTask: {
@@ -86,7 +83,7 @@ int main() {
                     showCursor();
 
                     std::cout << "Введите количество сотрудников: ";;
-                    is_valid_number(empCount);
+                    number_filteredInput<unsigned>(empCount);
                     std::cout << "\n";
 
                     if (empCount > 0) {
@@ -169,10 +166,10 @@ int main() {
             }
             break;
         }
-        case 1: { // Лабораторная работа №2
+        case lab_2_Dynamic_memory_allocation: {
             bool shouldReturnToMainMenu = false;
             while (!shouldReturnToMainMenu) {
-                int secondaryChoice = showMenu(".../mainMenu/secondaryMenu/dynamic_memory_allocation", secondaryMenu, secondaryMenuCount);
+                int secondaryChoice = main_showMenu(".../mainMenu/secondaryMenu/dynamic_memory_allocation", secondaryMenu, secondaryMenuCount);
 
                 switch (secondaryChoice) {
                 case lab_showTask: {
@@ -192,7 +189,7 @@ int main() {
                     while (true) {
                         std::cout << "Введите количество квадратных уравнений: ";
 
-                        is_valid_number(rootsIterCount);
+                        number_filteredInput<unsigned>(rootsIterCount);
                         std::cout << std::endl;
                         if (rootsIterCount != 0) {
                             QuadraticEquation* quadraticEquations = new QuadraticEquation[rootsIterCount];
@@ -200,11 +197,11 @@ int main() {
                             for (int i = 0; i < rootsIterCount; i++) {
                                 std::cout << "Введите коэффициенты a, b, c для уравнения:  " << i + 1 << std::endl;
 
-                                is_valid_number(a);
+                                number_filteredInput<double>(a);
                                 std::cout << std::endl;
-                                is_valid_number(b);
+                                number_filteredInput<double>(b);
                                 std::cout << std::endl;
-                                is_valid_number(c);
+                                number_filteredInput<double>(c);
                                 std::cout << std::endl;
 
                                 quadraticEquations[i].SetQuadraticEquation(a, b, c);
@@ -252,10 +249,10 @@ int main() {
             }
             break;
         }
-        case 2: { // Лабораторная работа №3
+        case lab_3_Friend_functions: {
             bool shouldReturnToMainMenu = false;
             while (!shouldReturnToMainMenu) {
-                int secondaryChoice = showMenu(".../mainMenu/secondaryMenu/friend_functions", secondaryMenu, secondaryMenuCount);
+                int secondaryChoice = main_showMenu(".../mainMenu/secondaryMenu/friend_functions", secondaryMenu, secondaryMenuCount);
 
                 switch (secondaryChoice) {
                 case lab_showTask: {
@@ -323,10 +320,10 @@ int main() {
             }
             break;
         }
-        case 3: { // Лабораторная работа №4
+        case lab_4_Inheritance: {
             bool shouldReturnToMainMenu = false;
             while (!shouldReturnToMainMenu) {
-                int secondaryChoice = showMenu(".../mainMenu/secondaryMenu/inheritance", secondaryMenu, secondaryMenuCount);
+                int secondaryChoice = main_showMenu(".../mainMenu/secondaryMenu/inheritance", secondaryMenu, secondaryMenuCount);
 
                 switch (secondaryChoice) {
                 case lab_showTask: {
@@ -415,10 +412,10 @@ int main() {
             }
             break;
         }
-        case 4: { // Лабораторная работа №5
+        case lab_5_Polymorphism: {
             bool shouldReturnToMainMenu = false;
             while (!shouldReturnToMainMenu) {
-                int secondaryChoice = showMenu(".../mainMenu/secondaryMenu/polymorphism", secondaryMenu, secondaryMenuCount);
+                int secondaryChoice = main_showMenu(".../mainMenu/secondaryMenu/polymorphism", secondaryMenu, secondaryMenuCount);
 
                 switch (secondaryChoice) {
                 case lab_showTask: {
@@ -478,10 +475,10 @@ int main() {
             }
             break;
         }
-        case 5: { // Лабораторная работа №6
+        case lab_6_Multiple_inheritance: {
             bool shouldReturnToMainMenu = false;
             while (!shouldReturnToMainMenu) {
-                int secondaryChoice = showMenu(".../mainMenu/secondaryMenu/multiple_inheritance", secondaryMenu, secondaryMenuCount);
+                int secondaryChoice = main_showMenu(".../mainMenu/secondaryMenu/multiple_inheritance", secondaryMenu, secondaryMenuCount);
 
                 switch (secondaryChoice) {
                 case lab_showTask: {
@@ -521,10 +518,10 @@ int main() {
             }
             break;
         }
-        case 6: { // Лабораторная работа №7
+        case lab_7_Templates: {
             bool shouldReturnToMainMenu = false;
             while (!shouldReturnToMainMenu) {
-                int secondaryChoice = showMenu(".../mainMenu/secondaryMenu/templates", secondaryMenu, secondaryMenuCount);
+                int secondaryChoice = main_showMenu(".../mainMenu/secondaryMenu/templates", secondaryMenu, secondaryMenuCount);
 
                 switch (secondaryChoice) {
                 case lab_showTask: {
@@ -558,8 +555,9 @@ int main() {
             }
             break;
         }
-        case 7: {// Выход из программы
-            std::cout << "\nВы выбрали: " << mainMenu[choice] << std::endl;
+        case endOfProgram: {// Выход из программы
+            std::cout << "\nВы выбрали: " << mainMenu[choice] << " ";
+            smoothWink();
             return 0;
         }
               break;

@@ -59,7 +59,7 @@ void PaymentForm::ScanPaymentForm(std::vector<PaymentForm>& forms, std::ostream&
     unsigned paymentFormCount = 0;
 
     os << "Введите количество форм для заполнения: ";
-    is_valid_number(paymentFormCount);
+    number_filteredInput<unsigned>(paymentFormCount);
     std::cout << "\n";
 
     forms.clear();
@@ -69,7 +69,7 @@ void PaymentForm::ScanPaymentForm(std::vector<PaymentForm>& forms, std::ostream&
 
         std::string lastName;
         os << "Введите фамилию работника " << i + 1 << " : ";
-        is_valid_number(lastName);
+        number_filteredInput<std::string>(lastName);
         form.SetLastName(lastName);
         std::cout << "\n";
 
@@ -79,7 +79,7 @@ void PaymentForm::ScanPaymentForm(std::vector<PaymentForm>& forms, std::ostream&
         for (int month = 0; month < 3; month++) {
             while (true) {
                 os << "Месяц " << month + 1 << ": ";
-                is_valid_number(salary);
+                number_filteredInput<double>(salary);
                 std::cout << "\n";
                 if (salary > 0) {
                     salaries.push_back(salary);
@@ -93,7 +93,7 @@ void PaymentForm::ScanPaymentForm(std::vector<PaymentForm>& forms, std::ostream&
         double taxRate;
         while (true) {
             os << "Введите процент налога (0-100): ";
-            is_valid_number(taxRate);
+            number_filteredInput<double>(taxRate);
             std::cout << "\n";
             if (taxRate > 0 && taxRate <= 100) {
                 form.SetIncomeTaxRate(taxRate);
