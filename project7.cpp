@@ -178,7 +178,7 @@ public:
             }
         }
         errflag = false;
-        std::cout << "—редн€€ зарплата команды: "; 
+        std::cout << "—редн€€ зарплата команды: ";  
         while (!errflag) {
             number_filteredInput<T>(averagesalary, 0, 1);
             if (averagesalary > 0) {

@@ -12,6 +12,7 @@
 #include "project6_header.h"
 #include "project7.cpp"
 #include "project8.cpp"
+#include "project9.cpp"
 #include <iostream>
 #include <windows.h>
 #include <vector>
@@ -696,34 +697,34 @@ int main() {
 
                     showCursor();
 
-                    bool shouldReturnToMainMenu = false;
-                    while (!shouldReturnToMainMenu) {
-                        int postsecondaryChoice = main_showMenu(".../mainMenu/secondaryMenu/smartPointers/postsecondaryMenu", postsecondaryMenu, postsecondaryMenuCount);
+                    ITCompany company;
+                    int choice;
 
-                        static ITCompany company;
+                    do {
+                        std::cout << "\n=== Система учета сотрудников ИТ-компании ===\n";
+                        std::cout << "1. Добавить разработчика\n";
+                        std::cout << "2. Добавить менеджера\n";
+                        std::cout << "3. Добавить дизайнера\n";
+                        std::cout << "4. Добавить QA инженера\n";
+                        std::cout << "5. Показать всех сотрудников\n";
+                        std::cout << "6. Изменить данные сотрудника\n";
+                        std::cout << "7. Откатить изменения сотрудника\n";
+                        std::cout << "0. Выход\n";
+                        std::cout << "Выберите действие: ";
+                        std::cin >> choice;
 
-                        switch (postsecondaryChoice) {
-                        case add_developer: {
-                            try {
+                        try {
+                            switch (choice) {
+                            case 1: {
                                 auto dev = Dev::createFromInput();
                                 company.addEmployee(dev);
                                 std::cout << "Разработчик успешно добавлен!\n";
+                                break;
                             }
-                            catch (...) {
-                                std::cout << "Ошибка при добавлении разработчика!\n";
-                            }
-                            system("pause");
-                            break;
-                        }
-                        case add_manager: {
-                            try {
+                            case 2: {
                                 std::cout << "Выберите тип для средней зарплаты (1 - int, 2 - double): ";
                                 int typeChoice;
-                                while (!(std::cin >> typeChoice) || (typeChoice != 1 && typeChoice != 2)) {
-                                    std::cin.clear();
-                                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-                                    std::cout << "Некорректный ввод. Введите 1 или 2: ";
-                                }
+                                std::cin >> typeChoice;
 
                                 if (typeChoice == 1) {
                                     auto mgr = Mgr<int>::createFromInput();
@@ -734,61 +735,72 @@ int main() {
                                     company.addEmployee(mgr);
                                 }
                                 std::cout << "Менеджер успешно добавлен!\n";
+                                break;
                             }
-                            catch (...) {
-                                std::cout << "Ошибка при добавлении менеджера!\n";
-                            }
-                            system("pause");
-                            break;
-                        }
-                        case add_designer: {
-                            try {
+                            case 3: {
                                 auto dsgnr = Dsgnr::createFromInput();
                                 company.addEmployee(dsgnr);
                                 std::cout << "Дизайнер успешно добавлен!\n";
+                                break;
                             }
-                            catch (...) {
-                                std::cout << "Ошибка при добавлении дизайнера!\n";
-                            }
-                            system("pause");
-                            break;
-                        }
-                        case add_qa_engineer: {
-                            try {
-                                auto qaeng = QAEng::createFromInput();
-                                company.addEmployee(qaeng);
+                            case 4: {
+                                auto qa = QAEng::createFromInput();
+                                company.addEmployee(qa);
                                 std::cout << "QA инженер успешно добавлен!\n";
+                                break;
                             }
-                            catch (...) {
-                                std::cout << "Ошибка при добавлении QA инженера!\n";
-                            }
-                            system("pause");
-                            break;
-                        }
-                        case show_all_employees: {
-                            if (company.teamMembers.empty()) {
-                                std::cout << "Список сотрудников пуст!\n";
-                            }
-                            else {
-                                std::cout << "=== СПИСОК СОТРУДНИКОВ ===\n";
-                                std::cout << "Общее количество: " << company.teamMembers.size() << "\n";
-                                std::cout << "Общие расходы на зарплаты: " << company.calculateTotalSalary() << "\n\n";
+                            case 5: {
                                 company.printAllEmployees();
+                                break;
                             }
-                            system("pause");
-                            break;
+                            case 6: {
+                                int id;
+                                std::string name;
+                                double salary;
+
+                                std::cout << "Введите ID сотрудника: ";
+                                std::cin >> id;
+                                std::cout << "Введите новое имя: ";
+                                std::cin.ignore();
+                                std::getline(std::cin, name);
+                                std::cout << "Введите новую зарплату: ";
+                                std::cin >> salary;
+
+                                if (company.updateEmployee(id, name, salary)) {
+                                    std::cout << "Данные обновлены\n";
+                                }
+                                else {
+                                    std::cout << "Сотрудник не найден\n";
+                                }
+                                break;
+                            }
+                            case 7: {
+                                int id;
+                                std::cout << "Введите ID сотрудника: ";
+                                std::cin >> id;
+
+                                if (company.rollbackEmployee(id)) {
+                                    std::cout << "Изменения откачены\n";
+                                }
+                                else {
+                                    std::cout << "Не удалось откатить изменения\n";
+                                }
+                                break;
+                            }
+                            case 0: {
+                                std::cout << "Выход из программы...\n";
+                                break;
+                            }
+                            default: {
+                                std::cout << "Неверный выбор. Попробуйте снова.\n";
+                                break;
+                            }
+                            }
                         }
-                        case returnToMainMenu: {
-                            shouldReturnToMainMenu = true;
-                            break;
+                        catch (const std::exception& e) {
+                            std::cerr << "Ошибка: " << e.what() << "\n";
                         }
-                        default: {
-                            std::cout << "Неизвестная команда!\n";
-                            system("pause");
-                            break;
-                        }
-                        }
-                    }
+                    } while (choice != 0);
 
                     hideCursor();
 
@@ -825,8 +837,87 @@ int main() {
 
                     showCursor();
 
+                    set_terminate(customTerminate);
+
+                    try {
+                        try {
+                            CPU invalidCPU("CPU", "AMD", 200, 4, -3.4);
+                            std::cout << "Параметр добавлен!";
+                        }
+                        catch (const CPUException& ex) {
+                            std::cerr << "Поймано исключение CPU: " << ex.what() << std::endl;
+                        }
+
+                        try {
+                            Memory invalidMemory("Memory", "Kingston", 100, -16, "DDR4");
+                            std::cout << "Параметр добавлен!";
+                        }
+                        catch (const MemoryException& ex) {
+                            std::cerr << "Поймано исключение Memory: " << ex.what() << std::endl;
+                        }
+
+                        try {
+                            Storage invalidStorage("Storage", "Seagate", 50, 0, false);
+                            std::cout << "Параметр добавлен!";
+                        }
+                        catch (const StorageException& ex) {
+                            std::cerr << "Поймано исключение Storage: " << ex.what() << std::endl;
+                        }
+
+                        try {
+                            GPU invalidGPU("GPU", "NVIDIA", 300, -4);
+                            std::cout << "Параметр добавлен!";
+                        }
+                        catch (const GPUException& ex) {
+                            std::cerr << "Поймано исключение GPU: " << ex.what() << std::endl;
+                        }
+
+                        try {
+                            Motherboard invalidMB("Motherboard", "ASUS", 150, "AM4", 0);
+                            std::cout << "Параметр добавлен!";
+                        }
+                        catch (const MotherboardException& ex) {
+                            std::cerr << "Поймано исключение Motherboard: " << ex.what() << std::endl;
+                        }
+
+                        try {
+                            demonstrateNewException();
+                        }
+                        catch (...) {
+                            std::cerr << "Перенаправленное исключение bad_alloc поймано в main" << std::endl;
+                        }
+
+                        CPU cpu("Ryzen 5 3600", "AMD", 200, 6, 3.6);
+                        Memory memory("HyperX", "Kingston", 80, 16, "DDR4");
+                        Storage storage("Barracuda", "Seagate", 60, 1000, false);
+                        GPU gpu("RTX 3060", "NVIDIA", 400, 12);
+
+                        Motherboard mb("B450", "ASUS", 120, "AM4", 4);
+                        mb.addComponent(new Memory("HyperX", "Kingston", 80, 16, "DDR4"));
+                        mb.addComponent(new CPU("Ryzen 5 3600", "AMD", 200, 6, 3.6));
+
+                        Computer myPC("Мой ПК");
+                        myPC.addComponent(&mb);
+                        myPC.addComponent(&storage);
+                        myPC.addComponent(&gpu);
+
+                        myPC.printConfiguration();
+                        std::cout << "Общая стоимость: $" << myPC.getTotalPrice() << std::endl;
+
+                        try {
+                            throw HardwareException("Тестовое пользовательское исключение");
+                        }
+                        catch (const HardwareException& e) {
+                            std::cerr << "Поймано пользовательское исключение: " << e.what() << std::endl;
+                        }
 
 
+                    }
+                    catch (...) {
+                        std::cerr << "Поймано неизвестное исключение в main" << std::   endl;
+                    }
+
+                    system("pause");
                     hideCursor();
 
                     break;
