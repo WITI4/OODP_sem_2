@@ -10,14 +10,12 @@
 #include "dproject4.cpp"
 #include "project5_header.h"
 #include "project6_header.h"
+#include "project7.cpp"
+#include "project8.cpp"
 #include <iostream>
 #include <windows.h>
-#include <conio.h>
-#include <stdio.h>
 #include <vector>
-#include <cctype>
 
-#undef max
 #define fastErrInfo \
 SetConsoleTextAttribute(consoleColor, 4);\
 std::cerr << "Некорректный ввод. Введите информацию еще раз:\n";\
@@ -25,8 +23,8 @@ SetConsoleTextAttribute(consoleColor, 7);
 //#define DEBUG
 
 enum For_SecondaryMenu_Switch { lab_showTask, lab_showTaskAndCopmplete, lab_returnToMainMenu, lab_endOfProgram };
-enum For_ladNumberSwitch { lab_1_Encapsulation, lab_2_Dynamic_memory_allocation, lab_3_Friend_functions, lab_4_Inheritance, lab_5_Polymorphism, lab_6_Multiple_inheritance, lab_7_Templates, endOfProgram };
-
+enum For_ladNumberSwitch { lab_1_Encapsulation, lab_2_Dynamic_memory_allocation, lab_3_Friend_functions, lab_4_Inheritance, lab_5_Polymorphism, lab_6_Multiple_inheritance, lab_7_Templates, lab_8_SmartPointers, lab_9_Exeptions, endOfProgram };
+enum MainMenuOption { add_developer, add_manager, add_designer, add_qa_engineer, show_all_employees, returnToMainMenu };
 
 int main() {
     SetConsoleCP(1251);
@@ -45,6 +43,8 @@ int main() {
         "Лабораторная работа №5 'Polymorphism'",
         "Лабораторная работа №6 'Multiple inheritance'",
         "Лабораторная работа №7 'Templates'",
+        "Лабораторная работа №8 'Smart Pointers'",
+        "Лабораторная работа №9 'Exeptions'",
         "Выход из программы"
     };
     int mainMenuCount = sizeof(mainMenu) / sizeof(mainMenu[0]);
@@ -519,6 +519,17 @@ int main() {
             break;
         }
         case lab_7_Templates: {
+
+            const std::string postsecondaryMenu[]{
+               "Добавить разработчика",
+               "Добавить менеджера",
+               "Добавить дизайнера",
+               "Добавить QA инженера",
+               "Вывести всех сотрудников",
+               "Выход в в главное меню"
+            };
+            int postsecondaryMenuCount = sizeof(postsecondaryMenu) / sizeof(postsecondaryMenu[0]);
+
             bool shouldReturnToMainMenu = false;
             while (!shouldReturnToMainMenu) {
                 int secondaryChoice = main_showMenu(".../mainMenu/secondaryMenu/templates", secondaryMenu, secondaryMenuCount);
@@ -526,13 +537,291 @@ int main() {
                 switch (secondaryChoice) {
                 case lab_showTask: {
                     std::cout << "\nВы выбрали: " << secondaryMenu[secondaryChoice] << std::endl;
-                    std::cout << "\nНЕОБХОДИМО ВЫПОЛНИТЬ:\n\n3. Имеется два класса: «Данные о работнике» (поля класса: фамилия, массив зарплат за квартал), «Налоговые данные»(поля класса : процент подоходного налога).Разработать класс «Платежная форма» для вывода итоговых данных(данных о работке и о его налоговых вычетах). \n" << std::endl;
+                    std::cout << "\nНЕОБХОДИМО ВЫПОЛНИТЬ:\n\n3. Разработать набор классов (минимум 5) по теме «учет сотрудников ИТ - компании».Корректно реализовать связи между классами.В разработанном наборе классов должен быть хотя бы один шаблонный класс.Все классы должны иметь методы получения и установки значений полей.Использовать конструктор с параметрами, конструктор без параметров, конструктор копирования, деструктор. \n" << std::endl;
                     system("pause");
                     break;
                 }
                 case lab_showTaskAndCopmplete: {
                     std::cout << "\nВы выбрали: " << secondaryMenu[secondaryChoice] << std::endl;
-                    std::cout << "\nНЕОБХОДИМО ВЫПОЛНИТЬ:\n\n3. Имеется два класса: «Данные о работнике» (поля класса: фамилия, массив зарплат за квартал), «Налоговые данные»(поля класса : процент подоходного налога).Разработать класс «Платежная форма» для вывода итоговых данных(данных о работке и о его налоговых вычетах). \n" << std::endl;
+                    std::cout << "\nНЕОБХОДИМО ВЫПОЛНИТЬ:\n\n3. Разработать набор классов (минимум 5) по теме «учет сотрудников ИТ - компании».Корректно реализовать связи между классами.В разработанном наборе классов должен быть хотя бы один шаблонный класс.Все классы должны иметь методы получения и установки значений полей.Использовать конструктор с параметрами, конструктор без параметров, конструктор копирования, деструктор. \n" << std::endl;
+                    system("pause");
+
+                    showCursor();
+
+                    bool shouldReturnToMainMenu = false;
+                    while (!shouldReturnToMainMenu) {
+                        int postsecondaryChoice = main_showMenu(".../mainMenu/secondaryMenu/templates/postsecondaryMenu", postsecondaryMenu, postsecondaryMenuCount);
+
+                        static std::vector<Empl*> employees;
+
+                        switch (postsecondaryChoice) {
+                        case add_developer: {
+                            showCursor();
+                            try {
+                                employees.push_back(new Developer(Developer::createFromInput()));
+                                std::cout << "Разработчик успешно добавлен!\n";
+                            }
+                            catch (...) {
+                                std::cout << "Ошибка при добавлении разработчика!\n";
+                            }
+                            hideCursor();
+                            system("pause");
+                            break;
+                        }
+                        case add_manager: {
+                            showCursor();
+                            try {
+                                std::cout << "Выберите тип для средней зарплаты (1 - int, 2 - double): ";
+                                int typeChoice;
+                                while (!(std::cin >> typeChoice) || (typeChoice != 1 && typeChoice != 2)) {
+                                    std::cin.clear();
+                                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                                    std::cout << "Некорректный ввод. Введите 1 или 2: ";
+                                }
+
+                                if (typeChoice == 1) {
+                                    employees.push_back(new Manager<int>(Manager<int>::createFromInput()));
+                                }
+                                else {
+                                    employees.push_back(new Manager<double>(Manager<double>::createFromInput()));
+                                }
+                                std::cout << "Менеджер успешно добавлен!\n";
+                            }
+                            catch (...) {
+                                std::cout << "Ошибка при добавлении менеджера!\n";
+                            }
+                            hideCursor();
+                            system("pause");
+                            break;
+                        }
+                        case add_designer: {
+                            showCursor();
+                            try {
+                                employees.push_back(new Designer(Designer::createFromInput()));
+                                std::cout << "Дизайнер успешно добавлен!\n";
+                            }
+                            catch (...) {
+                                std::cout << "Ошибка при добавлении дизайнера!\n";
+                            }
+                            hideCursor();
+                            system("pause");
+                            break;
+                        }
+                        case add_qa_engineer: {
+                            showCursor();
+                            try {
+                                employees.push_back(new QAEngineer(QAEngineer::createFromInput()));
+                                std::cout << "QA инженер успешно добавлен!\n";
+                            }
+                            catch (...) {
+                                std::cout << "Ошибка при добавлении QA инженера!\n";
+                            }
+                            hideCursor();
+                            system("pause");
+                            break;
+                        }
+                        case show_all_employees: {
+                            if (employees.empty()) {
+                                std::cout << "Список сотрудников пуст!\n";
+                            }
+                            else {
+                                std::cout << "=== СПИСОК СОТРУДНИКОВ ===\n\n";
+                                for (size_t i = 0; i < employees.size(); ++i) {
+                                    std::cout << "Сотрудник #" << i + 1 << "\n";
+                                    employees[i]->printInfo(std::cout);
+                                    std::cout << "------------------------\n";
+                                }
+                            }
+                            system("pause");
+                            break;
+                        }
+                        case returnToMainMenu: {
+                            for (auto& emp : employees) {
+                                delete emp;
+                            }
+                            employees.clear();
+                            shouldReturnToMainMenu = true;
+                            break;
+                        }
+                        default: {
+                            std::cout << "Неизвестная команда!\n";
+                            system("pause");
+                            break;
+                        }
+                    }
+                        }
+
+                    hideCursor();
+
+                    break;
+                }
+                case lab_returnToMainMenu: {
+                    shouldReturnToMainMenu = true;
+                    break;
+                }
+                case lab_endOfProgram: {
+                    std::cout << "\nВы выбрали: " << secondaryMenu[secondaryChoice] << std::endl;
+                    return 0;
+                }
+                }
+            }
+            break;
+        }
+        case lab_8_SmartPointers: {
+            const std::string postsecondaryMenu[]{
+               "Добавить разработчика",
+               "Добавить менеджера",
+               "Добавить дизайнера",
+               "Добавить QA инженера",
+               "Вывести всех сотрудников",
+               "Выход в в главное меню"
+            };
+            int postsecondaryMenuCount = sizeof(postsecondaryMenu) / sizeof(postsecondaryMenu[0]);
+
+            bool shouldReturnToMainMenu = false;
+            while (!shouldReturnToMainMenu) {
+                int secondaryChoice = main_showMenu(".../mainMenu/secondaryMenu/smartPointers", secondaryMenu, secondaryMenuCount);
+
+                switch (secondaryChoice) {
+                case lab_showTask: {
+                    std::cout << "\nВы выбрали: " << secondaryMenu[secondaryChoice] << std::endl;
+                    std::cout << "\nНЕОБХОДИМО ВЫПОЛНИТЬ:\n\n3. Разработать набор классов (минимум 5) по теме «учет  сотрудников ИТ - компании».Корректно реализовать связи между классами.Использовать smart - указатели для создания программы учета сведений о сотрудниках и расчета для них заработной платы.В разработанном наборе классов должен быть хотя бы один шаблонный класс.Все классы должны иметь методы получения и установки значений поле.Использовать конструктор с параметрами, конструктор без параметров, конструктор копирования, деструктор. \n" << std::endl;
+                    system("pause");
+                    break;
+                }
+                case lab_showTaskAndCopmplete: {
+                    std::cout << "\nВы выбрали: " << secondaryMenu[secondaryChoice] << std::endl;
+                    std::cout << "\nНЕОБХОДИМО ВЫПОЛНИТЬ:\n\n3. Разработать набор классов (минимум 5) по теме «учет  сотрудников ИТ - компании».Корректно реализовать связи между классами.Использовать smart - указатели для создания программы учета сведений о сотрудниках и расчета для них заработной платы.В разработанном наборе классов должен быть хотя бы один шаблонный класс.Все классы должны иметь методы получения и установки значений поле.Использовать конструктор с параметрами, конструктор без параметров, конструктор копирования, деструктор. \n" << std::endl;
+                    system("pause");
+
+                    showCursor();
+
+                    bool shouldReturnToMainMenu = false;
+                    while (!shouldReturnToMainMenu) {
+                        int postsecondaryChoice = main_showMenu(".../mainMenu/secondaryMenu/smartPointers/postsecondaryMenu", postsecondaryMenu, postsecondaryMenuCount);
+
+                        static ITCompany company;
+
+                        switch (postsecondaryChoice) {
+                        case add_developer: {
+                            try {
+                                auto dev = Dev::createFromInput();
+                                company.addEmployee(dev);
+                                std::cout << "Разработчик успешно добавлен!\n";
+                            }
+                            catch (...) {
+                                std::cout << "Ошибка при добавлении разработчика!\n";
+                            }
+                            system("pause");
+                            break;
+                        }
+                        case add_manager: {
+                            try {
+                                std::cout << "Выберите тип для средней зарплаты (1 - int, 2 - double): ";
+                                int typeChoice;
+                                while (!(std::cin >> typeChoice) || (typeChoice != 1 && typeChoice != 2)) {
+                                    std::cin.clear();
+                                    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+                                    std::cout << "Некорректный ввод. Введите 1 или 2: ";
+                                }
+
+                                if (typeChoice == 1) {
+                                    auto mgr = Mgr<int>::createFromInput();
+                                    company.addEmployee(mgr);
+                                }
+                                else {
+                                    auto mgr = Mgr<double>::createFromInput();
+                                    company.addEmployee(mgr);
+                                }
+                                std::cout << "Менеджер успешно добавлен!\n";
+                            }
+                            catch (...) {
+                                std::cout << "Ошибка при добавлении менеджера!\n";
+                            }
+                            system("pause");
+                            break;
+                        }
+                        case add_designer: {
+                            try {
+                                auto dsgnr = Dsgnr::createFromInput();
+                                company.addEmployee(dsgnr);
+                                std::cout << "Дизайнер успешно добавлен!\n";
+                            }
+                            catch (...) {
+                                std::cout << "Ошибка при добавлении дизайнера!\n";
+                            }
+                            system("pause");
+                            break;
+                        }
+                        case add_qa_engineer: {
+                            try {
+                                auto qaeng = QAEng::createFromInput();
+                                company.addEmployee(qaeng);
+                                std::cout << "QA инженер успешно добавлен!\n";
+                            }
+                            catch (...) {
+                                std::cout << "Ошибка при добавлении QA инженера!\n";
+                            }
+                            system("pause");
+                            break;
+                        }
+                        case show_all_employees: {
+                            if (company.teamMembers.empty()) {
+                                std::cout << "Список сотрудников пуст!\n";
+                            }
+                            else {
+                                std::cout << "=== СПИСОК СОТРУДНИКОВ ===\n";
+                                std::cout << "Общее количество: " << company.teamMembers.size() << "\n";
+                                std::cout << "Общие расходы на зарплаты: " << company.calculateTotalSalary() << "\n\n";
+                                company.printAllEmployees();
+                            }
+                            system("pause");
+                            break;
+                        }
+                        case returnToMainMenu: {
+                            shouldReturnToMainMenu = true;
+                            break;
+                        }
+                        default: {
+                            std::cout << "Неизвестная команда!\n";
+                            system("pause");
+                            break;
+                        }
+                        }
+                    }
+
+                    hideCursor();
+
+                    break;
+                }
+                case lab_returnToMainMenu: {
+                    shouldReturnToMainMenu = true;
+                    break;
+                }
+                case lab_endOfProgram: {
+                    std::cout << "\nВы выбрали: " << secondaryMenu[secondaryChoice] << std::endl;
+                    return 0;
+                }
+                }
+            }
+            break;
+        }
+        case lab_9_Exeptions: {
+            bool shouldReturnToMainMenu = false;
+            while (!shouldReturnToMainMenu) {
+                int secondaryChoice = main_showMenu(".../mainMenu/secondaryMenu/exeptions", secondaryMenu, secondaryMenuCount);
+
+                switch (secondaryChoice) {
+                case lab_showTask: {
+                    std::cout << "\nВы выбрали: " << secondaryMenu[secondaryChoice] << std::endl;
+                    std::cout << "\nНЕОБХОДИМО ВЫПОЛНИТЬ:\n\n3.3. Разработать набор классов (минимум 5 классов, связи между  классами: агрегация, композиция, наследование) по предметной области «Аппаратное обеспечение компьютера».Функционал программы должен позволить собрать компьютер. \n" << std::endl;
+                    system("pause");
+                    break;
+                }
+                case lab_showTaskAndCopmplete: {
+                    std::cout << "\nВы выбрали: " << secondaryMenu[secondaryChoice] << std::endl;
+                    std::cout << "\nНЕОБХОДИМО ВЫПОЛНИТЬ:\n\n3.3. Разработать набор классов (минимум 5 классов, связи между  классами: агрегация, композиция, наследование) по предметной области «Аппаратное обеспечение компьютера».Функционал программы должен позволить собрать компьютер. \n" << std::endl;
+                    system("pause");
 
                     showCursor();
 
@@ -540,7 +829,6 @@ int main() {
 
                     hideCursor();
 
-                    system("pause");
                     break;
                 }
                 case lab_returnToMainMenu: {
